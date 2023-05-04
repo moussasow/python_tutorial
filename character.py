@@ -17,6 +17,8 @@ class Hero() :
         self.monster_count = 0
         self.stage = 0
         self.money = 0
+        self.weapon = 0
+        self.can_shop = False
 
     def update_life(self):
         self.life = self.hero_life
@@ -26,6 +28,13 @@ class Hero() :
 
     def update_money(self, money):
         self.money += money
+
+    def update_shopping_status(self, status):
+        self.can_shop = status
+
+    def shopping_weapon(self, weapon, price):
+        self.weapon = weapon
+        self.money -= price
 
     def use_potion(self, potions):
         if self.potion_count < potions:

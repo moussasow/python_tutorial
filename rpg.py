@@ -9,6 +9,10 @@ LEVEL_UP_KILLS = 5
 kills = 0
 weapon = Weapons()
 
+input("Click any key to start the game! ")
+name = input("Enter character name: ")
+player = Hero(name, 100)
+print(f"Welcome {player.name}!")
 
 def get_monster_attack(m_life) :
     weapon = int(m_life/10)
@@ -41,29 +45,44 @@ def set_stage(m_count):
         Stage.update_stage()
         print(f"Entering stage:{Stage.current_stage}")
         print("♪♪♪♪♪♪♪♪♪♪♪♪♪♪♪♪♪♪")
+        player.update_shopping_status(True)
 
-def start_shopping(amount):
-    type = input("Enter w for weapon, a for armor and p for portion")
-    if type.lower() == 'w':
-        weapon.show_inventory()
-    elif type.lower() == 'a':
-        print("armor")
-    elif type.lower() == 'p':
-        print("potion")
+def shopping_weapon():
+    weapon.show_inventory()
+    str_id = input("Enter weapon number: ")
+    id = int(str_id)
+    strength, price = weapon.purchase_weapon(id, player.money)
+    player.shopping_weapon(strength, price)
+
+def start_shopping():
+    # Create item type to function mapping
+    item_functions = {
+        'w': shopping_weapon,
+        'a': lambda: print("armor"),
+        'p': lambda: print("potion")
+    }
+    
+    # Get item type from user
+    item_type = input("Enter w -> weapon, a -> armor, p -> portion: ")
+    
+    # Get function for item type
+    item_function = item_functions.get(item_type.lower())
+    
+    # Call function if it exists
+    if item_function:
+        item_function()
     else:
         print("Please come back again!")
 
-def inquire_shopping(amount) :
-    shop = input("Enter shop to go shopping")
+def inquire_shopping() :
+    if not player.can_shop:
+        return
+
+    player.update_shopping_status(False)
+    shop = input("Enter shop to go shopping: ")
     if shop.lower() == 'shop':
-        start_shopping(amount)
+        start_shopping()
 
-
-input("Click any key to start the game! ")
-name = input("Enter character name: ")
-player = Hero(name, 100)
-
-print(f"Welcome {player.name}!")
 
 input("Press any key to continue ")
 while player.life > 0 :
@@ -72,13 +91,14 @@ while player.life > 0 :
     current_stage = Stage.current_stage
     player.update_stage(current_stage)
     health = Stage.stages[current_stage].get_health(player.level)
+
+    inquire_shopping()
+
     monster = Foe(health)
-    print("Your next opponent!")
+    print("You met:")
     #print(f"current_stage = {current_stage}")
     monster.print_info()
 
-    inquire_shopping(player.money)
-    
     print(f"HP: {player.life} Potions: {player.potion_count}")
     use_potion = input("Press p to use potion: ")
     if use_potion.lower() == "p":
@@ -112,6 +132,7 @@ while player.life > 0 :
         player.level_up()
         player.update_life()
         kills = 0
+        player.update_shopping_status(True)
         player.print_info()
 else:
     print("Game over!")
