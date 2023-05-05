@@ -18,6 +18,7 @@ class Hero() :
         self.stage = 0
         self.money = 0
         self.weapon = 0
+        self.armor = 0
         self.can_shop = False
 
     def update_life(self):
@@ -33,8 +34,20 @@ class Hero() :
         self.can_shop = status
 
     def shopping_weapon(self, weapon, price):
-        self.weapon = weapon
+        if weapon > self.weapon:
+            self.weapon = weapon
+        
         self.money -= price
+
+    def shopping_armor(self, armor, price):
+        if armor > self.armor:
+            self.armor = armor
+        
+        self.money -= price
+
+    def shopping_potions(self, potions, price):
+        self.potion_count += potions
+        self.money -= price    
 
     def use_potion(self, potions):
         if self.potion_count < potions:
@@ -50,8 +63,12 @@ class Hero() :
         print("Your life is", self.life)
 
     def receive_damage(self, attack) :
-        self.life -= attack
-        print("You suffered", attack, "damage!")
+        damage = attack - self.armor
+        if (self.armor > attack):
+            damage = 0
+
+        self.life -= damage
+        print(f"You suffered {damage} damage!")
 
     def update_kills(self) :
         self.kills += 1
@@ -60,7 +77,7 @@ class Hero() :
     def level_up(self) :
         self.level += 1
         self.hero_life += 20 + (10 * self.stage)
-        reward_potions = random.randint(0, self.level)
+        reward_potions = random.randint(1, self.level)
         self.potion_count += reward_potions
         print("########################")
         print("Level up!")
@@ -71,10 +88,10 @@ class Hero() :
         self.stage = stage    
 
     def print_info(self) :
-        print(f"{self.name}, Level:{self.level} HP:{self.life} Money:{self.money} {MONEY}")
+        print(f"{self.name}, Level:{self.level} HP:{self.life} Weapon:{self.weapon} Armor:{self.armor} Money:{self.money} {MONEY}")
 
     def game_over(self) :
-        print("Your level is", self.level, " and defeated", self.kills, "monsters!")
+        print(f"Level: {self.level}, Max HP: {self.hero_life}, Potions: {self.potion_count}, Money: {self.money} {MONEY}, Monsters killed: {self.kills}")
 
 class Foe() :
     def __init__(self, life) :
