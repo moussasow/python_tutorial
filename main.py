@@ -5,7 +5,7 @@ from stages import Stage
 from shopping import Weapons, Armors, Potions
 from functions.battle_func import *
 from functions.shop_func import *
-from functions.stage_func import *
+from functions.stage_func import initialize_stage, set_stage, stage_change_animation
 
 weapon = Weapons()
 armor = Armors()
@@ -37,6 +37,9 @@ print(f"Welcome {player.name}!")
 input("Press any key to continue ")
 while player.life > 0 :
     current_stage = initialize_stage(player)
+    if current_stage == Stage.number_of_stages:
+        player.game_cleared()
+        break
 
     inquire_shopping(player, weapon, armor, potion)
 
@@ -54,7 +57,6 @@ while player.life > 0 :
     level_up(player)
 
 else:
-    print("Game over!")
     player.game_over()
 
 input("Entry any key to quit!")

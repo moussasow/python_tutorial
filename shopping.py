@@ -9,8 +9,6 @@ class Weapons():
     def __init__(self):
         pass
 
-    #w = Weapons()
-	#strength, price = w.purchase_weapon("Sword")
     def purchase_weapon(self, id, amount):
         for weapon in self.weapons:
             if weapon["id"] == id:
@@ -63,7 +61,10 @@ class Potions():
 
     potions = [{"id": 1, "name": "Health Potion", "healing": 10, "price": 100},
                {"id": 2, "name": "Mana Potion", "mana": 10, "price": 100},
-               {"id": 3, "name": "Stamina Potion", "stamina": 10, "price": 100}]
+               {"id": 3, "name": "Stamina Potion", "stamina": 10, "price": 100},
+               {"id": 5, "name": "Health Potion", "healing": 10, "price": 500},
+               {"id": 10, "name": "Health Potion", "healing": 10, "price": 1000},
+               {"id": 20, "name": "Health Potion", "healing": 10, "price": 2000}]
 
     def __init__(self):
         pass
@@ -85,7 +86,7 @@ class Potions():
                 if amount < price:
                     print("You dont have enough money.")
                     return 0,0
-                self.potions.remove(potion)
+                #self.potions.remove(potion)
                 print(f"{potion['name']} has been purchased for {price}.")
                 return id, price
         print(f"Potion with id {id} not found in the inventory.")

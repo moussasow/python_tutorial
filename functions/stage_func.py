@@ -14,7 +14,8 @@ def set_stage(player):
     if player.level == stage_count:
         Stage.stage_change_animation()
         Stage.update_stage()
-        print(f"Entering stage:{Stage.current_stage}")
+        next_stage = Stage.current_stage + 1
+        print(f"Entering stage:{next_stage}")
         print("♪♪♪♪♪♪♪♪♪♪♪♪♪♪♪♪♪♪")
         player.update_shopping_status(True)
 

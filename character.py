@@ -38,16 +38,19 @@ class Hero() :
             self.weapon = weapon
         
         self.money -= price
+        self.print_info() 
 
     def shopping_armor(self, armor, price):
         if armor > self.armor:
             self.armor = armor
         
         self.money -= price
+        self.print_info() 
 
     def shopping_potions(self, potions, price):
         self.potion_count += potions
-        self.money -= price    
+        self.money -= price
+        self.print_info()    
 
     def use_potion(self, potions):
         if self.potion_count < potions:
@@ -88,10 +91,18 @@ class Hero() :
         self.stage = stage    
 
     def print_info(self) :
-        print(f"{self.name}, Level:{self.level} HP:{self.life} Weapon:{self.weapon} Armor:{self.armor} Money:{self.money} {MONEY}")
+        print(f"{self.name}, Level:{self.level} HP:{self.life} Weapon:+{self.weapon} Armor:+{self.armor} Potions:{self.potion_count} Money:{self.money} {MONEY}")
+
+    def game_cleared(self) :
+        print("＼(^_^)／＼(^_^)／＼(^_^)／")
+        print("Game Cleared!")
+        print(f"Congratulations {self.name}!")
+        print(f"Level: {self.level}, Max HP: {self.hero_life}, Potions: {self.potion_count}, Money: {self.money} {MONEY}, Monsters killed: {self.monster_count}")
+        print("＼(^_^)／＼(^_^)／＼(^_^)／")
 
     def game_over(self) :
-        print(f"Level: {self.level}, Max HP: {self.hero_life}, Potions: {self.potion_count}, Money: {self.money} {MONEY}, Monsters killed: {self.kills}")
+        print("Game over!")
+        print(f"Level: {self.level}, Max HP: {self.hero_life}, Potions: {self.potion_count}, Money: {self.money} {MONEY}, Monsters killed: {self.monster_count}")
 
 class Foe() :
     def __init__(self, life) :

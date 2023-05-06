@@ -5,6 +5,7 @@ class Stage:
     stages = []
     current_stage = 0  # Add a new class variable to hold the current stage
     levels_per_stage = 0
+    number_of_stages = 0
 
     def __init__(self, level_ranges):
         self.level_ranges = level_ranges
@@ -12,7 +13,7 @@ class Stage:
 
     @classmethod
     def init_stages(cls):
-        from game_config import stage1, stage2, stage3, stage4, stage5, stage6, stage7, stage8
+        from game_config import stage1, stage2, stage3, stage4, stage5, stage6, stage7, stage8, stage9, stage10, stage11
         cls.stages = [stage1,
                       stage2,
                       stage3,
@@ -20,7 +21,12 @@ class Stage:
                       stage5,
                       stage6,
                       stage7,
-                      stage8]
+                      stage8,
+                      stage9,
+                      stage10,
+                      stage11]
+
+        cls.number_of_stages = len(cls.stages)
 
     def get_health(self, player_level):
         levels_stage = len(self.level_ranges)
